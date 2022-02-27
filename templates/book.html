@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Book's Page{% endblock title %}
+
+
+
+{% block body %}
+<form method="get" action="{% url 'searchbook' %}" class="d-flex position-relative my-4 mx-3" style="width: 27%;">
+    <input class="form-control me-2" id="myInput" type="search" placeholder="Search by Author Name" aria-label="Search" name="search" id="search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button class="btn btn-primary me-md-2" style="width: 5.5%;" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add </button>
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Add New Books</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+            <form action='{% url 'booksave' %}' method='post'>
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Book's Name</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Books Name" name="Name" value="{{ Name }}">
+                </div>
+                <div class="form-group">
+                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Author</label>
+                    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="Author">
+                      <option selected>Choose...</option>
+                      {% for ath in author %}
+                      <option value="1">{{ath.Name}}</option>
+                      {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Enter Date Published</label>
+                  <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Date" value="{{Published_Date}}" name="Published_Date">
+                  {% comment %} <small id="emailHelp" class="form-text text-muted"> Only write date in mm-dd-yyyy format</small> {% endcomment %}
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Pages</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter no. of Pages" value="{{Pages}}" name="Pages">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Critics</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter critics value" value="{{critics}}" name="critics">
+                </div>
+                <button type="submit" class="btn btn-primary my-2">Submit</button>
+              </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<table class="table table-dark table-borderless my-3" style="margin-left: 14px; width: 98%;">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">Book's Name</th>
+        <th scope="col">Author</th>
+        <th scope="col">Date Published</th>
+        <th scope="col">Pages</th>
+        <th scope="col">Critics</th>
+      </tr>
+    </thead>
+    {% for bks in book %}
+    <tbody>
+      <tr>
+        <th scope="row">{{bks.Name}}</th>
+        <td>{{bks.Author}}</td>
+        <td>{{bks.Published_Date}}</td>
+        <td>{{bks.Pages}}</td>
+        <td>{{bks.critics}}</td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end my-4">
+    <a class="btn btn-primary me-md-2" type="button" href="{% url 'book_csv' %}" role="button">Export</a>
+</div>
+{% endblock %}

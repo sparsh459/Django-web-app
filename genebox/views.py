@@ -1,5 +1,9 @@
-from urllib import response
+from matplotlib.style import context
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view
 from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render
 from genebox.models import Authors, Books
 from genebox.serializers import AuthorSerializer, BookSerializer
 from rest_framework import generics
@@ -8,7 +12,7 @@ import csv
 # Create your views here.
 
 def home(request):
-    return HttpResponse("home page")
+    return render(request, 'base.html')
 
 def author_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -29,55 +33,90 @@ def author_csv(request):
     
     return response
 
+def book_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['content-dispositon'] = 'attachment; filename = authors.csv'
 
-class AuthorList(generics.ListCreateAPIView):
-    queryset = Authors.objects.all()
-    serializer_class = AuthorSerializer
+    # creatting csv writer
+    writer = csv.writer(response)
+
+    # designate th emodel
+    books = Books.objects.all()
+
+    #add column heading to csv file
+    writer.writerow(['Book_Name', 'Author', 'Published Date', 'Pages', 'Critics'])
+
+    # loop tru and output
+    for book in books:
+        writer.writerow([book.Name, book.Author, book.Published_Date, book.Pages, book.critics])
+    
+    return response
 
 
-class AuthorDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Authors.objects.all()
-    serializer_class = AuthorSerializer
+@api_view(['GET','POST'])
+def Author_list(request):
+    """
+    List all code snippets, or create a new snippet.
+    """
+    if request.method == 'GET':
+        print('get')
+        authors = Authors.objects.all()
+        serializer = AuthorSerializer(authors, many=True)
+        context = {
+            'author': authors
+        }
+        # print(context)
+        return render(request, 'author.html', context)
+
+    elif request.method == 'POST':
+        print('post')
+        serializer = AuthorSerializer(data=request.data)
+        # checking if serializer is valid
+        if serializer.is_valid():
+            serializer.save()
+            return render(request, 'base.html')
+        return HttpResponse("Bad Request")
 
 
-class BookList(generics.ListCreateAPIView):
-    queryset = Books.objects.all()
-    serializer_class = BookSerializer
+@api_view(['GET','POST'])
+def Book_list(request):
+    """
+    List all code snippets, or create a new snippet.
+    """
+    if request.method == 'GET':
+        authors = Books.objects.all()
+        dbauthrs = Authors.objects.all()
+        serializer = BookSerializer(authors, many=True)
+        context = {
+            'book':authors,
+            'author':dbauthrs
+        }
+        # print(context)
+        return render(request, 'book.html', context)
 
+    elif request.method == 'POST':
+        serializer = BookSerializer(data=request.data)
+        # checking if serializer is valid
+        if serializer.is_valid():
+            serializer.save()
+            return render(request, 'base.html')
+        return HttpResponse("bad request")
 
-class BookDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Books.objects.all()
-    serializer_class = BookSerializer
+def search_author(request):
+    query=request.GET['search']
+    authors = Authors.objects.filter(Name__icontains=query)
+    context = {
+            'author': authors
+        }
+    print(context)
+    return render(request, 'author.html', context)
 
-
-# @api_view(['GET','POST'])
-# def Author_list(request):
-#     """
-#     List all code snippets, or create a new snippet.
-#     """
-#     if request.method == 'GET':
-#         authors = Authors.objects.all()
-#         serializer = AuthorSerializer(authors, many=True)
-#         return Response(serializer.data)
-
-#     elif request.method == 'POST':
-#         serializer = AuthorSerializer(data=request.data)
-#         # checking if serializer is valid
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# @api_view(['GET'])
-# def Author_detail(request, pk):
-#     """
-#     Retrieve a snippet.
-#     """
-#     try:
-#         author = Authors.objects.get(pk=pk)
-#     except Authors.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-
-#     if request.method == 'GET':
-#         serializer = AuthorSerializer(author)
-#         return Response(serializer.data)
+def search_book(request):
+    query=request.GET['search']
+    dbauthrs = Authors.objects.all()
+    authors = Books.objects.filter(Name__icontains=query)
+    context = {
+            'book':authors,
+            'author':dbauthrs
+        }
+    return render(request, 'book.html', context)

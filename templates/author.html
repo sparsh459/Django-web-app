@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Author's Page{% endblock title %}
+
+
+
+{% block body %}
+<form method="get" action="{% url 'searchauthor' %}" class="d-flex position-relative my-4 mx-3" style="width: 27%;">
+    <input class="form-control me-2" id="myInput" type="search" placeholder="Search by Author Name" aria-label="Search" name="search" id="search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button class="btn btn-primary me-md-2" style="width: 5.5%;" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add </button>
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Add New Author</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+            <form action='{% url 'authsave' %}' method='post'>
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Author's Name</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Author Name" name="Name" value="{{ Name }}">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Age</label>
+                  <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Age" value="{{Age}}" name="Age">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Gender</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Your Gender" value="{{Gender}}" name="Gender">
+                  <small id="emailHelp" class="form-text text-muted"> Only write Male, Female ot Others for your Gender box</small>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Country</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Country Name" value="{{Country}}" name="Country">
+                </div>
+                <button type="submit" class="btn btn-primary my-2">Submit</button>
+              </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<table class="table table-dark table-borderless my-3" style="margin-left: 14px; width: 98%;">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">Author's Name</th>
+        <th scope="col">Age</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Country</th>
+      </tr>
+    </thead>
+        {% for auth in author %}
+    <tbody id="myTable">
+      <tr>
+        <th scope="row">{{auth.Name}}</th>
+        <td>{{auth.Age}}</td>
+        <td>{{auth.Gender}}</td>
+        <td>{{auth.Country}}</td>
+      </tr>
+    </tbody>
+        {% endfor %}
+  </table>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end my-4">
+    <a class="btn btn-primary me-md-2" type="button" href="{% url 'author_csv' %}" role="button">Export</a>
+</div>
+{% endblock %}

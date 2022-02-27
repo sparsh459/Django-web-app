@@ -6,8 +6,8 @@ from django.db import models
 # Create your models here.
 class Authors(models.Model):
     Gender_choice = (
-        ('M', 'Male'),
-        ('F', 'Female'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
         ('Other', 'Others'),
     )
     Name = models.CharField(max_length=70)

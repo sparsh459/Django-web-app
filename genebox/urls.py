@@ -4,9 +4,12 @@ from genebox import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('authors/', views.AuthorList.as_view()),
-    path('details/<str:pk>/', views.AuthorDetail.as_view()),
-    path('books/', views.BookList.as_view()),
-    path('Bdetails/<str:pk>/', views.BookDetail.as_view()),
-    path('authorcsv/', views.author_csv, name='author_csv')
+    path('authors/', views.Author_list, name='all_author'),
+    path('authors/postform/', views.Author_list, name='authsave'),
+    path('books/', views.Book_list, name='all_books'),
+    path('books/postform/', views.Book_list, name='booksave'),
+    path('authorcsv/', views.author_csv, name='author_csv'),
+    path('bookcsv/', views.book_csv, name='book_csv'),
+    path('authors/search/', views.search_author, name='searchauthor'),
+    path('books/search/', views.search_book, name='searchbook')
 ]
