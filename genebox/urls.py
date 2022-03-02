@@ -10,6 +10,4 @@ urlpatterns = [
     path('books/postform/', views.Book_list, name='booksave'),
     path('authorcsv/', views.author_csv, name='author_csv'),
     path('bookcsv/', views.book_csv, name='book_csv'),
-    path('authors/search/', views.search_author, name='searchauthor'),
-    path('books/search/', views.search_book, name='searchbook')
 ]
