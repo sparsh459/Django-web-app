@@ -2,13 +2,13 @@
 
 {% block title %}Author's Page{% endblock title %}
 
- 
+{% load bootstrap %} 
 
 {% block body %}
 <form method="get" class="d-flex position-relative my-4 mx-3" style="width: 56%;">
     {% comment %} <input class="form-control me-2" id="myInput" type="search" placeholder="Search by Author Name" aria-label="Search" name="search" id="search"> {% endcomment %}
-    {{myFilter.form}}
-    <button class="btn btn-outline-success" type="submit" style="margin-left: 32px; padding-inline: 23px;">Search</button>
+    {{myFilter.form|bootstrap_horizontal}}
+    <button class="btn btn-outline-success" type="submit" style="margin-left: 26px;padding-inline: 15px;font-size: 24px;">Search</button>
 </form>
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">

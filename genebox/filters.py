@@ -4,14 +4,15 @@ from genebox.models import Authors, Books
 
 
 class AutherFilter(django_filters.FilterSet):
-    Name = CharFilter(field_name='Name', lookup_expr='icontains')
+    Name = CharFilter(field_name='Name')
     class Meta:
         model = Authors
         fields = '__all__'
         exclude = ['Country']
 
 class BookFilter(django_filters.FilterSet):
-    Name = CharFilter(field_name='Name', lookup_expr='icontains')
+    Name = CharFilter(field_name='Name')
+    
     class Meta:
         model= Books
         fields = '__all__'

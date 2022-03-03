@@ -45,7 +45,7 @@ def book_csv(request):
 
     # loop tru and output
     for book in books:
-        writer.writerow([book.Name, book.Author, book.Published_Date, book.Pages, book.critics])
+        writer.writerow([book.Name, book.Author, book.Published, book.Pages, book.critics])
     
     return response
 

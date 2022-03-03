@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'genebox',
     'rest_framework',
     'django_filters',
+    'widget_tweaks',
+    'bootstrapform',
 ]
 
 REST_FRAMEWORK = {

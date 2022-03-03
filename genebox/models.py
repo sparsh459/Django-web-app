@@ -19,7 +19,7 @@ class Authors(models.Model):
 class Books(models.Model):
     Name = models.CharField(max_length=250)
     Author = models.ForeignKey('Authors', on_delete=models.CASCADE, default=None)
-    Published_Date = models.DateField(blank=False)
+    Published = models.DateField(blank=False)
     Pages = models.IntegerField()
     critics = models.IntegerField(default=0)
 

@@ -2,13 +2,13 @@
 
 {% block title %}Book's Page{% endblock title %}
 
-
+{% load bootstrap %}
 
 {% block body %}
 <form method="get" class="d-flex position-relative my-4 mx-3" style="width: 56%;">
     {% comment %} <input class="form-control me-2" id="myInput" type="search" placeholder="Search by Author Name" aria-label="Search" name="search" id="search"> {% endcomment %}
-    {{myFilter.form}}
-    <button class="btn btn-outline-success" type="submit" style="margin-left: 32px; padding-inline: 23px;">Search</button>
+    {{myFilter.form|bootstrap_horizontal}}
+    <button class="btn btn-outline-success" type="submit" style="margin-left: 26px;padding-inline: 15px;font-size: 24px;">Search</button>
 </form>
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Enter Date Published</label>
-                  <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Date" value="{{Published_Date}}" name="Published_Date">
+                  <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Date" value="{{Published}}" name="Published">
                   {% comment %} <small id="emailHelp" class="form-text text-muted"> Only write date in mm-dd-yyyy format</small> {% endcomment %}
                 </div>
                 <div class="form-group">
@@ -79,7 +79,7 @@
       <tr>
         <th scope="row">{{bks.Name}}</th>
         <td>{{bks.Author}}</td>
-        <td>{{bks.Published_Date}}</td>
+        <td>{{bks.Published|date:"d M, Y" }}</td>
         <td>{{bks.Pages}}</td>
         <td>{{bks.critics}}</td>
       </tr>
