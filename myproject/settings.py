@@ -140,4 +140,4 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-DATE_INPUT_FORMATS = ['%d-%m-%Y']
+DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')

@@ -112,22 +112,3 @@ def Book_list(request):
             serializer.save()
             return render(request, 'base.html')
         return HttpResponse("bad request")
-
-# def search_author(request):
-#     query=request.GET['search']
-#     authors = Authors.objects.filter(Name__icontains=query)
-#     context = {
-#             'author': authors
-#         }
-#     print(context)
-#     return render(request, 'author.html', context)
-
-# def search_book(request):
-#     query=request.GET['search']
-#     dbauthrs = Authors.objects.all()
-#     authors = Books.objects.filter(Name__icontains=query)
-#     context = {
-#             'book':authors,
-#             'author':dbauthrs
-#         }
-#     return render(request, 'book.html', context)

@@ -74,7 +74,7 @@
         <th scope="col">Critics</th>
       </tr>
     </thead>
-    {% for bks in book %}
+    {% for bks in myFilter.qs %}
     <tbody>
       <tr>
         <th scope="row">{{bks.Name}}</th>
